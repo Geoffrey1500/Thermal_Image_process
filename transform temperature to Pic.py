@@ -7,3 +7,4 @@ df = df[0].str.split(',', expand=True,).drop([0, 385], axis=1).astype('float64')
 
 tem_data = df.values
 
+print(tem_data, type(tem_data))

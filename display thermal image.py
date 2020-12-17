@@ -1,8 +1,35 @@
 import numpy as np
+import os
 import matplotlib.pyplot as plt
 import pandas as pd
 from mpl_toolkits.mplot3d import Axes3D
 import cv2
+
+
+filepath = 'tmp_data'
+i_count = 0
+
+for item in os.listdir(filepath):
+    df = pd.read_csv(os.path.join(filepath, item), error_bad_lines=False, sep='\t', header=None).drop([0], axis=0)
+    df = df[0].str.split(',', expand=True, ).drop([0, 385], axis=1).astype('float64')
+    data_array = df.values
+
+    # temperature_range = np.max(data_array) - np.min(data_array)
+    temperature_range = np.max(data_array) - np.min(data_array)
+    temperature_normalized = np.floor(((data_array - np.min(data_array)) * 255) / temperature_range).astype(np.uint8)
+    img_color_hist = cv2.equalizeHist(temperature_normalized)
+
+    img_colored_hist = cv2.applyColorMap(img_color_hist, cv2.COLORMAP_JET)
+    img_colored = cv2.applyColorMap(temperature_normalized, cv2.COLORMAP_JET)
+
+    cv2.imwrite('thermal_test_img/colored/' + str(i_count) + '.jpg', img_colored)
+    cv2.imwrite('thermal_test_img/gray/' + str(i_count) + '.jpg', temperature_normalized)
+    cv2.imwrite('thermal_test_img/normalized/' + str(i_count) + '.jpg', img_colored_hist)
+
+    i_count += 1
+
+
+
 
 
 def data2array(self):
