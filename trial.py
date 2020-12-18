@@ -7,6 +7,8 @@ if __name__ == "__main__":
     filepath = 'test_img'
     imgs = []
 
+    i_count = 11
+
     for item in os.listdir(filepath):
         img = cv2.imread(os.path.join(filepath, item))
         imgs.append(img)
@@ -20,7 +22,7 @@ if __name__ == "__main__":
     #stitcher = cv2.Stitcher.create(cv2.Stitcher_PANORAMA), 根据不同的OpenCV版本来调用
     (_result, pano) = stitcher.stitch(imgs)
 
-    cv2.imwrite('result/pano9.jpg', pano)
+    cv2.imwrite('thermal_result/pano' + str(i_count) + '.jpg', pano)
 
     cv2.namedWindow('pano', 0)
     cv2.imshow('pano', pano)

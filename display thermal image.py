@@ -15,8 +15,10 @@ for item in os.listdir(filepath):
     data_array = df.values
 
     # temperature_range = np.max(data_array) - np.min(data_array)
-    temperature_range = np.max(data_array) - np.min(data_array)
-    temperature_normalized = np.floor(((data_array - np.min(data_array)) * 255) / temperature_range).astype(np.uint8)
+    lowest_temper, highest_temper = 20, 35
+    temperature_range = highest_temper - lowest_temper
+    temperature_normalized = np.floor((data_array - lowest_temper)/temperature_range * 255).astype(np.uint8)
+    # temperature_normalized = np.floor(((data_array - np.min(data_array)) * 255) / temperature_range).astype(np.uint8)
     img_color_hist = cv2.equalizeHist(temperature_normalized)
 
     img_colored_hist = cv2.applyColorMap(img_color_hist, cv2.COLORMAP_JET)
